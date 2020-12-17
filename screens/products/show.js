@@ -11,7 +11,8 @@ const productsShow = (props) => {
     const initialState = {
         id: '',
         description: '',
-        price: ''
+        price: '',
+        cost: ''
     };
     // Producto
     const [product, setProduct] = useState(initialState);
@@ -23,8 +24,6 @@ const productsShow = (props) => {
         const query = firebase.db.collection('products').doc(id);
         const doc = await query.get();
         const product = doc.data();
-
-        console.log(product)
 
         setProduct({ ...product, id: doc.id});
         setLoading(false);
@@ -56,11 +55,28 @@ const productsShow = (props) => {
     // Función que edita en la db el producto.
     const editProduct = async () => {
 
-        const query = firebase.db.collection('products').doc(product.id);
-        await query.set({
+        const productRef = firebase.db.collection('products').doc(product.id);
+        // Actualiza el producto.
+        await productRef.set({
             description: product.description,
-            price: product.price
+            price: product.price,
+            cost: product.cost
         });
+
+        // Actualiza las ventas de este producto.
+        firebase.db.collection('sellings')
+            .where('productId', '==', product.id)
+            .onSnapshot(querySnapshot => {
+                querySnapshot.docs.forEach(doc => {
+                    const ref = firebase.db.collection('sellings').doc(doc.id)
+                    ref.update({ 
+                        productName: product.description,
+                        total: product.price * doc.data().amount
+                    });
+                });
+            });
+    
+        firebase.db.
 
         setProduct(initialState);
         props.navigation.navigate('ProductsIndex');
@@ -93,6 +109,13 @@ const productsShow = (props) => {
                         label="Precio ($)"
                         value={product.price} 
                         onChangeText={(value) => { handleChangeText('price', value) }} 
+                    />
+                    <Input 
+                        style={styles.input} 
+                        placeholder="Costo ($)"
+                        label="Costo ($)"
+                        value={product.cost} 
+                        onChangeText={(value) => { handleChangeText('cost', value) }} 
                     />
                     <Button 
                         buttonStyle={{marginTop: 25, backgroundColor: '#19AC52'}} 

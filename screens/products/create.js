@@ -10,7 +10,8 @@ const productsCreate = (props) => {
     // State
     const [state, setState] = useState({
         description: '',
-        price: ''
+        price: '',
+        cost: ''
     })
 
     // Handler que actualiza el estado.
@@ -26,12 +27,13 @@ const productsCreate = (props) => {
             try {
                 await firebase.db.collection('products').add({
                     description: state.description,
-                    price: state.price
+                    price: state.price,
+                    cost: state.cost
                 });
                 props.navigation.navigate('ProductsIndex');    
             }
             catch (e) {
-                alert('Hubo un problema al intentar crear el producto.');
+                Alert.alert('Error', 'Hubo un problema al intentar crear el producto.');
                 console.log(e);
             }
         }
@@ -44,6 +46,7 @@ const productsCreate = (props) => {
                 <View>
                     <Input style={styles.input} placeholder="Descripción" onChangeText={(value) => { handleChangeText('description', value) }} />
                     <Input style={styles.input} placeholder="Precio ($)" onChangeText={(value) => { handleChangeText('price', value) }} />
+                    <Input style={styles.input} placeholder="Costo ($)" onChangeText={(value) => { handleChangeText('cost', value) }} />
                     <Button style={{marginTop: 25}} title="Crear" onPress={() => { createNewProduct() }} />
                 </View>
             </Card>

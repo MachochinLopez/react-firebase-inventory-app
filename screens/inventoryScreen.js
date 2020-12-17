@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView} from 'react-native';
-import { Button, ListItem } from 'react-native-elements';
-
+import { ScrollView} from 'react-native';
+import { Text, ListItem } from 'react-native-elements';
 // Firebase
 import firebase from '../database/firebase';
 
@@ -9,7 +8,7 @@ const inventoryScreen = () => {
 
     const [products, setProducts] = useState({
         description: '',
-        amount: '',
+        amount: ''
     });
 
     useEffect(() => {
@@ -26,16 +25,14 @@ const inventoryScreen = () => {
     }, []);
 
     return (
-        <ScrollView style={{ margin: 10, marginTop: 35 }}>
-            {
+        <ScrollView style={{ margin: 10, marginTop: 35 }} >
+            <Text h3 style={{ textAlign: 'center', marginVertical: 10 }} >Inventario</Text>
+            {/* {
                 products.map(product => {
                     return (
                         <ListItem 
                             key={product.id} 
                             bottomDivider 
-                            // onPress={() => props.navigation.navigate('ShowProduct', {
-                            //     productId: product.id
-                            // }) } 
                         >
                             <ListItem.Content>
                                 <ListItem.Title>{product.description}</ListItem.Title>
@@ -43,20 +40,11 @@ const inventoryScreen = () => {
                             </ListItem.Content>
                             <ListItem.Chevron />
                         </ListItem>
-                    )
+                    );
                 })
-            }
+            } */}
         </ScrollView>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
 
 export default inventoryScreen;
