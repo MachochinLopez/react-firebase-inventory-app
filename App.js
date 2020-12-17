@@ -21,6 +21,10 @@ import sellingsShow from './screens/sellings/show';
 import inputsIndex from './screens/inputs/index';
 import inputsCreate from './screens/inputs/create';
 import inputsShow from './screens/inputs/show';
+// SALIDAS
+import outputsIndex from './screens/outputs/index';
+import outputsCreate from './screens/outputs/create';
+import outputsShow from './screens/outputs/show';
 // INVENTARIO
 import inventoryScreen from './screens/inventoryScreen';
 
@@ -57,14 +61,25 @@ const InputStack = () => {
 	);
 };
 
+const OutputStack = () => {
+	return (
+		<Stack.Navigator>
+			<Stack.Screen name="OutputsIndex" component={outputsIndex} options={{title: 'Listar Salidas'}} />
+			<Stack.Screen name="CreateOutput" component={outputsCreate} options={{title: 'Crear Salidas'}} />
+			<Stack.Screen name="ShowOutput" component={outputsShow} options={{title: 'Ver Salidas'}} />
+		</Stack.Navigator>
+	);
+};
+
 const App = () => {
   return (
     <NavigationContainer>
-		<Drawer.Navigator initialRouteName="Entradas">
-			<Drawer.Screen name="Entradas" component={InputStack} />
+		<Drawer.Navigator initialRouteName="Inventario">
 			<Drawer.Screen name="Inventario" component={inventoryScreen} />
 			<Drawer.Screen name="Ventas" component={SellingStack} />
+			<Drawer.Screen name="Entradas" component={InputStack} />
 			<Drawer.Screen name="Productos" component={ProductStack} />
+			<Drawer.Screen name="Salidas" component={OutputStack} />
 		</Drawer.Navigator>
     </NavigationContainer>
   );

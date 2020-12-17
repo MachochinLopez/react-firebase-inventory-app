@@ -64,7 +64,7 @@ const productsShow = (props) => {
         });
 
         // Actualiza las ventas de este producto.
-        firebase.db.collection('sellings')
+        await firebase.db.collection('sellings')
             .where('productId', '==', product.id)
             .onSnapshot(querySnapshot => {
                 querySnapshot.docs.forEach(doc => {
@@ -75,9 +75,30 @@ const productsShow = (props) => {
                     });
                 });
             });
-    
-        firebase.db.
 
+        await firebase.db.collection('inputs')
+            .where('productId', '==', product.id)
+            .onSnapshot(querySnapshot => {
+                querySnapshot.docs.forEach(doc => {
+                    const ref = firebase.db.collection('inputs').doc(doc.id)
+                    ref.update({ 
+                        productName: product.description,
+                        cost: product.price * doc.data().amount
+                    });
+                });
+            });
+
+        await firebase.db.collection('outputs')
+            .where('productId', '==', product.id)
+            .onSnapshot(querySnapshot => {
+                querySnapshot.docs.forEach(doc => {
+                    const ref = firebase.db.collection('outputs').doc(doc.id)
+                    ref.update({ 
+                        productName: product.description
+                    });
+                });
+            });
+    
         setProduct(initialState);
         props.navigation.navigate('ProductsIndex');
     };
