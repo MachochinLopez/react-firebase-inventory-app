@@ -106,7 +106,7 @@ const productsShow = (props) => {
     // Devuelve una pantalla de carga.
     if (loading) {
         return (
-            <View>
+            <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
                 <ActivityIndicator size="large" color="#9e9e9e" />
             </View>
         );

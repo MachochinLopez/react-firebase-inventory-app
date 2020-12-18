@@ -5,7 +5,7 @@ import { Text, ListItem } from 'react-native-elements';
 // Firebase
 import firebase from '../database/firebase';
 
-const inventoryScreen = () => {
+const inventoryScreen = ({navigation}) => {
 
     const [products, setProducts] = useState([]);
     // Indica si está cargando.
@@ -74,8 +74,11 @@ const inventoryScreen = () => {
     }
 
     useEffect(() => {
-        getInventory();
-    }, []);
+        navigation.addListener('focus', () => {
+            setIsLoading(false);
+            getInventory();
+        });
+    }, [navigation]);
 
     if(!isLoading) {
         return (
